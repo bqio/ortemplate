@@ -1,0 +1,53 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+LittleEndian();
+
+// [00, 80] - next word
+// 96 ofs - start text
+// len of first line 16
+// 112
+
+local int tableRelativeOffset;
+local int i;
+local int length;
+
+struct HEADER {
+    uint unk;
+    uint unk;
+    uint unk;
+    uint headerSize;
+    uint unk;
+    byte padding[12];
+} header;
+
+tableRelativeOffset = FTell();
+
+struct PTRS_TABLE {
+    ushort bmpWidth;
+    ushort bmpHeight;
+    uint unk;
+    uint ptrsCount;
+    uint ptrs[ptrsCount];
+} ptrsTable;
+
+for (i = 0; i < ptrsTable.ptrsCount - 1; i++) {
+    FSeek(tableRelativeOffset + ptrsTable.ptrs[i]);
+    length = ptrsTable.ptrs[i+1] - ptrsTable.ptrs[i];
+    struct TEXT {
+        struct LETTER {
+            ubyte idx;
+            ubyte unk;
+        } letter [length/2];
+    } text;
+}
