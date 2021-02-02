@@ -13,11 +13,6 @@
 
 LittleEndian();
 
-// [00, 80] - next word
-// 96 ofs - start text
-// len of first line 16
-// 112
-
 local int tableRelativeOffset;
 local int i;
 local int length;
